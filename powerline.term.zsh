@@ -23,6 +23,7 @@ esac
 
 if [ -f ~/.local/share/fonts/Ricomoon.ttf ];then
 	export phoenix=""
+	export phoenixx=""
 	export phoenix_gen=""
 	export archlinux=""
 	export archlinuxjp=""
@@ -39,8 +40,9 @@ if [ -f ~/.local/share/fonts/Ricomoon.ttf ];then
 	export icon_git_commit=""
 
 	if [ -n "$SSH_CONNECTION" ];then
-		export icon_user_ssh="%F{cyan}%K{red}${phoenix_gen}%f%k"
-		export icon_user="%F{cyan}%K{red}${phoenix}%f%k"
+		export icon_user_ssh="%F{cyan}${phoenix_gen}%f"
+		export icon_user="%F{cyan}${phoenix}%f"
+		export icon_userr=${phoenix}
 		#if echo $SSH_CLIENT | grep '192.168' > /dev/null 2>&1;then
 		#	export icon_user="${icon_user} ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN} ${icon_lan}"
 		#else
@@ -197,11 +199,11 @@ function +vi-git-config-user(){
 
 precmd() { vcs_info }  
 
-prompt_bar_left_self="%{%F{white}%K{magent}%} ${icon_user} ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN} %n%{%k%f%}%{%F{white}%K{magent}%}@%{%k%f%}%{%F{white}%K{magent}%}%m %{%k%f%}%{%B%F{blue}%K{blue}%}%{%b%f%k%}%K{blue}%F{magent}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%{%B%F{white}%K{blue}%}  ${icon_directory} %~ %{%k%f%b%}%{%k%f%}%K{cyan}%F{blue}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%(?.%F{white}%K{cyan}%} ${icon_good} %k%f.%B%K{cyan}%F{magent}%} ${icon_bad} %b%k%f)%{%K{white}%F{cyan}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%F{black}%K{white}%} ${icon_os}  %k%f%K{black}%F{white}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%K{white}%F{black}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD} %h %{%k%f%}%K{black}%F{white}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f"
+prompt_bar_left_self="%{%F{white}%K{magent}%} ${icon_userr} ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN} %n%{%k%f%}%{%F{white}%K{magent}%}@%{%k%f%}%{%F{white}%K{magent}%}%m %{%k%f%}%{%B%F{blue}%K{blue}%}%{%b%f%k%}%K{blue}%F{magent}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%{%B%F{white}%K{blue}%}  ${icon_directory} %~ %{%k%f%b%}%{%k%f%}%K{cyan}%F{blue}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%(?.%F{white}%K{cyan}%} ${icon_good} %k%f.%B%K{cyan}%F{magent}%} ${icon_bad} %b%k%f)%{%K{white}%F{cyan}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%F{black}%K{white}%} ${icon_os}  %K{black}%F{white}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%k%f%K{black}%F{white}%k%f%K{white}%F{black}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%{%F{black}%K{white}%} %h %{%k%f%}%K{black}%F{white}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f"
 
-prompt_bar_left="${prompt_bar_left_self} ${icon_user_ssh} ${prompt_bar_left_status} ${prompt_bar_left_date}"
-prompt_left="%{%F{white}%K{black}%} ${SHELL} %(?.%{%k%f%}%{%K{white}%F{black}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%B%F{black}%K{white}%} %# ${p_buffer_stack} %{%b%k%f%f%}%K{black}%F{white}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f.%{%k%f%}%{%K{magenta}%F{black}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%B%F{white}%K{magenta}%} %# ${p_buffer_stack} %{%b%k%f%f%}%K{black}%F{magenta}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f)  "
-#prompt_left='%F{white}%#>%f '
+prompt_bar_left="${prompt_bar_left_self} ${icon_user_ssh}${prompt_bar_left_status} ${prompt_bar_left_date}"
+#prompt_left="%{%F{white}%K{black}%} ${SHELL} %(?.%{%k%f%}%{%K{white}%F{black}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%B%F{black}%K{white}%} %# ${p_buffer_stack} %{%b%k%f%f%}%K{black}%F{white}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f.%{%k%f%}%{%K{magenta}%F{black}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%B%F{white}%K{magenta}%} %# ${p_buffer_stack} %{%b%k%f%f%}%K{black}%F{magenta}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f)       "
+prompt_left="%{%F{white}%K{black}%} > "
 #${SHELL##*/}
 count_prompt_characters()
 {
@@ -225,7 +227,7 @@ update_prompt()
   local bar_right_without_path_length=$(count_prompt_characters "$bar_right_without_path")
   bar_right=${prompt_bar_right:s/%d/%(C,%${max_path_length}<...<%d%<<,)/}
   bar_right="%${bar_rest_length}<<${separator}${bar_right}%<<"
-  prompt_bar_left_2="%K{white}%F{black}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD} ${icon_heart} %k%f%K{black}%F{white}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%K{white}%F{black}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%{%F{black}%K{white}%} %l %K{black}%F{white}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%{%k%f%}%{%F{white}%K{black}%} $LANG %{%k%f%}%F{black}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}"
+  prompt_bar_left_2="%K{white}%F{black}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD} ${icon_heart} %K{black}%F{white}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%k%f%K{black}%F{white}%k%f%K{white}%F{black}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%{%F{black}%K{white}%} %l %K{black}%F{white}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%{%k%f%}%{%F{white}%K{black}%} $LANG %{%k%f%}%F{black}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}"
 
   PROMPT="${bar_left}${bar_right} ${prompt_bar_left_2}"$'\n'"${prompt_left}"
 
@@ -245,72 +247,72 @@ precmd_functions=($precmd_functions update_prompt)
 
 ### }}}
 
-### vi-mode {{{
-## prompt {{{
-EMACS_INSERT=`bindkey -lL main | cut -d ' ' -f 3`
-if bindkey -lL main | cut -d ' ' -f 3 | grep emacs > /dev/null 2>&1;then
-    EMACS_INSERT="%K{black}%F{yellow}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{yellow}%F{green} % $EMACS_INSERT %k%f"
-    VIM_INSERT="%K{yellow}%F{cyan}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{cyan}%F{white} % INSERT %k%f%K{cyan}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
-else
-    EMACS_INSERT="%K{black}%F{green}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{green}%F{yellow} % $EMACS_INSERT %k%f"
-    VIM_INSERT="%K{green}%F{cyan}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{cyan}%F{white} % INSERT %k%f%K{cyan}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
-fi
-RPROMPT="$EMACS_INSERT$VIM_INSERT"
-function zle-keymap-select {
-EMACS_INSERT=`bindkey -lL main | cut -d ' ' -f 3`
-if echo $EMACS_INSERT | grep emacs > /dev/null 2>&1;then
-  EMACS_INSERT="%K{black}%F{yellow}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{yellow}%F{green} % $EMACS_INSERT %k%f"
-  VIM_NORMAL="%K{yellow}%F{magenta}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{magenta}%F{white} % NORMAL %k%f%K{magenta}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
-  VIM_INSERT="%K{yellow}%F{cyan}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{cyan}%F{white} % INSERT %k%f%K{cyan}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
-else
-  EMACS_INSERT="%K{black}%F{green}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{green}%F{yellow} % $EMACS_INSERT %k%f"
-  VIM_NORMAL="%K{green}%F{magenta}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{magenta}%F{white} % NORMAL %k%f%K{magenta}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
-  VIM_INSERT="%K{green}%F{cyan}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{cyan}%F{white} % INSERT %k%f%K{cyan}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
-fi
-RPROMPT="$EMACS_INSERT${${KEYMAP/vicmd/$VIM_NORMAL}/(main|viins)/$VIM_INSERT}"
-zle reset-prompt
-}
-zle -N zle-keymap-select
-## prompt }}}
-
-# prompt-bindkey {{{
-function airchrome-bindmode-emacs () {
-bindkey -e
-EMACS_INSERT=`bindkey -lL main | cut -d ' ' -f 3`
-if echo $EMACS_INSERT | grep emacs > /dev/null 2>&1;then
-  EMACS_INSERT="%K{black}%F{yellow}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{yellow}%F{green} % $EMACS_INSERT %k%f"
-  VIM_NORMAL="%K{yellow}%F{magenta}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{magenta}%F{white} % NORMAL %k%f%K{magenta}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
-  VIM_INSERT="%K{yellow}%F{cyan}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{cyan}%F{white} % INSERT %k%f%K{cyan}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
-else
-  EMACS_INSERT="%K{black}%F{yellow}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{yellow}%F{green} % $EMACS_INSERT %k%f"
-  VIM_NORMAL="%K{yellow}%F{magenta}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{magenta}%F{white} % NORMAL %k%f%K{magenta}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
-  VIM_INSERT="%K{yellow}%F{cyan}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{cyan}%F{white} % INSERT %k%f%K{cyan}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
-fi
-RPS1="$EMACS_INSERT${${KEYMAP/vicmd/$VIM_NORMAL}/(main|viins)/$VIM_INSERT}"
-RPS2=$RPS1
-zle reset-prompt
-}
-zle -N airchrome-bindmode-emacs
-bindkey -v '^e' airchrome-bindmode-emacs
-bindkey -a '^e' airchrome-bindmode-emacs
-
-function airchrome-bindmode-vi () {
-bindkey -v
-EMACS_INSERT=`bindkey -lL main | cut -d ' ' -f 3`
-if echo $EMACS_INSERT | grep emacs > /dev/null 2>&1;then
-  EMACS_INSERT="%K{black}%F{yellow}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{yellow}%F{green} % $EMACS_INSERT %k%f"
-  VIM_NORMAL="%K{yellow}%F{magenta}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{magenta}%F{white} % NORMAL %k%f%K{magenta}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
-  VIM_INSERT="%K{yellow}%F{cyan}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{cyan}%F{white} % INSERT %k%f%K{cyan}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
-else
-  EMACS_INSERT="%K{black}%F{green}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{green}%F{yellow} % $EMACS_INSERT %k%f"
-  VIM_NORMAL="%K{green}%F{magenta}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{magenta}%F{white} % NORMAL %k%f%K{magenta}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
-  VIM_INSERT="%K{green}%F{cyan}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{cyan}%F{white} % INSERT %k%f%K{cyan}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
-fi
-RPS1="$EMACS_INSERT${${KEYMAP/vicmd/$VIM_NORMAL}/(main|viins)/$VIM_INSERT}"
-RPS2=$RPS1
-zle reset-prompt
-}
-zle -N airchrome-bindmode-vi
-bindkey -e '^v' airchrome-bindmode-vi
+#### vi-mode {{{
+### prompt {{{
+#EMACS_INSERT=`bindkey -lL main | cut -d ' ' -f 3`
+#if bindkey -lL main | cut -d ' ' -f 3 | grep emacs > /dev/null 2>&1;then
+#    EMACS_INSERT="%K{black}%F{yellow}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{yellow}%F{green} % $EMACS_INSERT %k%f"
+#    VIM_INSERT="%K{yellow}%F{cyan}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{cyan}%F{white} % INSERT %k%f%K{cyan}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
+#else
+#    EMACS_INSERT="%K{black}%F{green}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{green}%F{yellow} % $EMACS_INSERT %k%f"
+#    VIM_INSERT="%K{green}%F{cyan}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{cyan}%F{white} % INSERT %k%f%K{cyan}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
+#fi
+#RPROMPT="$EMACS_INSERT$VIM_INSERT"
+#function zle-keymap-select {
+#EMACS_INSERT=`bindkey -lL main | cut -d ' ' -f 3`
+#if echo $EMACS_INSERT | grep emacs > /dev/null 2>&1;then
+#  EMACS_INSERT="%K{black}%F{yellow}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{yellow}%F{green} % $EMACS_INSERT %k%f"
+#  VIM_NORMAL="%K{yellow}%F{magenta}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{magenta}%F{white} % NORMAL %k%f%K{magenta}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
+#  VIM_INSERT="%K{yellow}%F{cyan}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{cyan}%F{white} % INSERT %k%f%K{cyan}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
+#else
+#  EMACS_INSERT="%K{black}%F{green}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{green}%F{yellow} % $EMACS_INSERT %k%f"
+#  VIM_NORMAL="%K{green}%F{magenta}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{magenta}%F{white} % NORMAL %k%f%K{magenta}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
+#  VIM_INSERT="%K{green}%F{cyan}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{cyan}%F{white} % INSERT %k%f%K{cyan}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
+#fi
+#RPROMPT="$EMACS_INSERT${${KEYMAP/vicmd/$VIM_NORMAL}/(main|viins)/$VIM_INSERT}"
+#zle reset-prompt
+#}
+#zle -N zle-keymap-select
+### prompt }}}
+#
+## prompt-bindkey {{{
+#function airchrome-bindmode-emacs () {
+#bindkey -e
+#EMACS_INSERT=`bindkey -lL main | cut -d ' ' -f 3`
+#if echo $EMACS_INSERT | grep emacs > /dev/null 2>&1;then
+#  EMACS_INSERT="%K{black}%F{yellow}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{yellow}%F{green} % $EMACS_INSERT %k%f"
+#  VIM_NORMAL="%K{yellow}%F{magenta}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{magenta}%F{white} % NORMAL %k%f%K{magenta}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
+#  VIM_INSERT="%K{yellow}%F{cyan}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{cyan}%F{white} % INSERT %k%f%K{cyan}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
+#else
+#  EMACS_INSERT="%K{black}%F{yellow}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{yellow}%F{green} % $EMACS_INSERT %k%f"
+#  VIM_NORMAL="%K{yellow}%F{magenta}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{magenta}%F{white} % NORMAL %k%f%K{magenta}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
+#  VIM_INSERT="%K{yellow}%F{cyan}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{cyan}%F{white} % INSERT %k%f%K{cyan}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
+#fi
+#RPS1="$EMACS_INSERT${${KEYMAP/vicmd/$VIM_NORMAL}/(main|viins)/$VIM_INSERT}"
+#RPS2=$RPS1
+#zle reset-prompt
+#}
+#zle -N airchrome-bindmode-emacs
+#bindkey -v '^e' airchrome-bindmode-emacs
+#bindkey -a '^e' airchrome-bindmode-emacs
+#
+#function airchrome-bindmode-vi () {
+#bindkey -v
+#EMACS_INSERT=`bindkey -lL main | cut -d ' ' -f 3`
+#if echo $EMACS_INSERT | grep emacs > /dev/null 2>&1;then
+#  EMACS_INSERT="%K{black}%F{yellow}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{yellow}%F{green} % $EMACS_INSERT %k%f"
+#  VIM_NORMAL="%K{yellow}%F{magenta}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{magenta}%F{white} % NORMAL %k%f%K{magenta}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
+#  VIM_INSERT="%K{yellow}%F{cyan}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{cyan}%F{white} % INSERT %k%f%K{cyan}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
+#else
+#  EMACS_INSERT="%K{black}%F{green}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{green}%F{yellow} % $EMACS_INSERT %k%f"
+#  VIM_NORMAL="%K{green}%F{magenta}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{magenta}%F{white} % NORMAL %k%f%K{magenta}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
+#  VIM_INSERT="%K{green}%F{cyan}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f%K{cyan}%F{white} % INSERT %k%f%K{cyan}%F{black}${TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}%k%f"
+#fi
+#RPS1="$EMACS_INSERT${${KEYMAP/vicmd/$VIM_NORMAL}/(main|viins)/$VIM_INSERT}"
+#RPS2=$RPS1
+#zle reset-prompt
+#}
+#zle -N airchrome-bindmode-vi
+#bindkey -e '^v' airchrome-bindmode-vi
 ### }}}
 ### }}}
