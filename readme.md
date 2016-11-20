@@ -1,5 +1,5 @@
 
-![](https://raw.githubusercontent.com/mba-hack/images/master/terminal-iconfont-icomoon.png)
+![](https://raw.githubusercontent.com/mba-hack/images/master/statusline_prompt.png)
 
 ```bash
 $ git clone https://github.com/syui/ricomoon
