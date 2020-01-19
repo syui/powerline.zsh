@@ -16,6 +16,8 @@ case $OSTYPE in
 	darwin*)
 	  TMUX_POWERLINE_SEPARATOR_LEFT_BOLD="⮂"
 	  TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD="⮀"
+    #TMUX_POWERLINE_SEPARATOR_LEFT_BOLD="◀"
+	  #TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD="▶"
 	  TMUX_POWERLINE_SEPARATOR_LEFT_THIN="❮"
 	  TMUX_POWERLINE_SEPARATOR_RIGHT_THIN="❯"
 	;;
@@ -39,16 +41,17 @@ if [ -f ~/.local/share/fonts/Ricomoon.ttf ];then
 	export icon_git_commit=""
 
 	if [ -n "$SSH_CONNECTION" ];then
-		export icon_user_ssh="%F{cyan}%K{red}${phoenix_gen}%f%k"
-		export icon_user="%F{cyan}%K{red}${phoenix}%f%k"
+		export icon_user="%F{cyan}${phoenix}%f"
+		#export icon_user="%F{black}%K{white}${phoenix}%f%k"
 		#if echo $SSH_CLIENT | grep '192.168' > /dev/null 2>&1;then
 		#	export icon_user="${icon_user} ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN} ${icon_lan}"
 		#else
 		#	export icon_user="${icon_user} ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN} ${icon_wan}"
 		#fi
 	else
-		export icon_user_ssh="${phoenix}"
-		export icon_user=${phoenix}
+		#export icon_user_ssh="${phoenix}"
+		#export icon_user=${phoenix}
+		export icon_user="%F{black}${phoenix}%f"
 	fi
 
 	export icon_os=${archlinux}
@@ -152,7 +155,7 @@ zstyle ':vcs_info:git:*' check-for-changes true
 zstyle ':vcs_info:git:*' stagedstr "%F{red}${icon_git_branch}%f"
 zstyle ':vcs_info:git:*' unstagedstr "%F{cyan}${icon_git_commit}%f"
 zstyle ':vcs_info:*' actionformats '(%s)-[%b|%a] %m'
-zstyle ':vcs_info:git:*' formats '%{%k%f%}%F{black}%K{yellow}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%F{magent}%K{yellow} ${icon_git} ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN} %s ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN} %r ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN} %m%a %f%k%K{green}%F{yellow}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%%F{white}%K{green} %b %f%k%K{black}%F{green}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%%F{white}%K{black} %c%u %f%k'
+zstyle ':vcs_info:git:*' formats '%{%k%f%}%F{black}%K{green}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%F{white}%K{green} ${icon_git} ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN} %s ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN} %r ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN} %m%a %f%k%K{yellow}%F{green}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%%F{white}%K{yellow} %b %f%k%K{black}%F{yellow}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%%F{white}%K{black} %c%u %f%k'
 
 zstyle ':vcs_info:git+set-message:*' hooks \
                                         git-hook-begin \
@@ -197,11 +200,11 @@ function +vi-git-config-user(){
 
 precmd() { vcs_info }  
 
-prompt_bar_left_self="%{%F{white}%K{magent}%} ${icon_user} ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN} %n%{%k%f%}%{%F{white}%K{magent}%}@%{%k%f%}%{%F{white}%K{magent}%}%m %{%k%f%}%{%B%F{blue}%K{blue}%}%{%b%f%k%}%K{blue}%F{magent}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%{%B%F{white}%K{blue}%}  ${icon_directory} %~ %{%k%f%b%}%{%k%f%}%K{cyan}%F{blue}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%(?.%F{white}%K{cyan}%} ${icon_good} %k%f.%B%K{cyan}%F{magent}%} ${icon_bad} %b%k%f)%{%K{white}%F{cyan}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%F{black}%K{white}%} ${icon_os}  %k%f%K{black}%F{white}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%K{white}%F{black}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD} %h %{%k%f%}%K{black}%F{white}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f"
+prompt_bar_left_self="%{%B%F{black}%K{white}%} %~ %{%k%f%b%}%k%f%K{black}%F{white}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%K{white}%F{black}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%(?.%F{black}%K{white}%} ${icon_good} %k%f.%B%K{white}%F{red}%} ${icon_bad} %b%k%f)%{%K{white}%F{black} %k%f%K{black}%F{white}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%K{white}%F{black}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%F{black}%K{white}%} ${icon_os}  %k%f%K{black}%F{white}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f"
 
-prompt_bar_left="${prompt_bar_left_self} ${icon_user_ssh} ${prompt_bar_left_status} ${prompt_bar_left_date}"
+prompt_bar_left="${prompt_bar_left_self}"
 prompt_left="%{%F{white}%K{black}%} ${SHELL} %(?.%{%k%f%}%{%K{white}%F{black}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%B%F{black}%K{white}%} %# ${p_buffer_stack} %{%b%k%f%f%}%K{black}%F{white}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f.%{%k%f%}%{%K{magenta}%F{black}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%B%F{white}%K{magenta}%} %# ${p_buffer_stack} %{%b%k%f%f%}%K{black}%F{magenta}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f)  "
-#prompt_left='%F{white}%#>%f '
+prompt_left='%F{white} %n@%m [%#]>%f '
 #${SHELL##*/}
 count_prompt_characters()
 {
@@ -225,8 +228,8 @@ update_prompt()
   local bar_right_without_path_length=$(count_prompt_characters "$bar_right_without_path")
   bar_right=${prompt_bar_right:s/%d/%(C,%${max_path_length}<...<%d%<<,)/}
   bar_right="%${bar_rest_length}<<${separator}${bar_right}%<<"
-  prompt_bar_left_2="%K{white}%F{black}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD} ${icon_heart} %k%f%K{black}%F{white}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%K{white}%F{black}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%{%F{black}%K{white}%} %l %K{black}%F{white}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%{%k%f%}%{%F{white}%K{black}%} $LANG %{%k%f%}%F{black}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}"
-
+  prompt_bar_left_2="%K{white}%F{black}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD} ${icon_user}  %k%f%K{black}%F{white}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f"
+  #PROMPT="${bar_left}${bar_right} ${prompt_bar_left_2}"$'\n'"${prompt_left}"
   PROMPT="${bar_left}${bar_right} ${prompt_bar_left_2}"$'\n'"${prompt_left}"
 
   case "$TERM_PROGRAM" in
