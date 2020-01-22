@@ -4,41 +4,34 @@
 
 case $OSTYPE in
 	linux*)
-	  TMUX_POWERLINE_SEPARATOR_LEFT_BOLD="⮂"
-	  TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD="⮀"
+	  TMUX_POWERLINE_SEPARATOR_LEFT_BOLD=""
+	  TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD=""
 	  TMUX_POWERLINE_SEPARATOR_LEFT_THIN="❮"
 	  TMUX_POWERLINE_SEPARATOR_RIGHT_THIN="❯"
-	  #TMUX_POWERLINE_SEPARATOR_LEFT_BOLD="◀"
-	  #TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD="▶"
-	  #TMUX_POWERLINE_SEPARATOR_LEFT_THIN="⮃"
-	  #TMUX_POWERLINE_SEPARATOR_RIGHT_THIN="⮁"
 	;;
 	darwin*)
-	  TMUX_POWERLINE_SEPARATOR_LEFT_BOLD="⮂"
+	  TMUX_POWERLINE_SEPARATOR_LEFT_BOLD=""
 	  TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD="⮀"
-    #TMUX_POWERLINE_SEPARATOR_LEFT_BOLD="◀"
-	  #TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD="▶"
 	  TMUX_POWERLINE_SEPARATOR_LEFT_THIN="❮"
 	  TMUX_POWERLINE_SEPARATOR_RIGHT_THIN="❯"
 	;;
 esac
 
-if [ -f ~/.local/share/fonts/Ricomoon.ttf ];then
-	export phoenix=""
-	export phoenix_gen=""
-	export archlinux=""
-	export archlinuxjp=""
-	export icon_good=""
+if [ -f ~/.local/share/fonts/ricomoon.ttf ];then
+	export phoenix=""
+	export phoenix_gen=""
+	export archlinux=""
+	export archlinuxjp=""
+	export icon_good=""
 	export icon_bad=""
-	export icon_directory=""
+	export icon_directory=""
 	export icon_github=""
-	export icon_git=""
-	export icon_power=""
-	export icon_lan=""
-	export icon_wan=""
-	export icon_lock=""
+	export icon_git=""
+	export icon_power=""
 	export icon_git_branch=""
-	export icon_git_commit=""
+	export icon_git_st=""
+	export icon_git_un=""
+	export icon_git_ac=""
 
 	if [ -n "$SSH_CONNECTION" ];then
 		export icon_user="%F{cyan}${phoenix}%f"
@@ -55,7 +48,7 @@ if [ -f ~/.local/share/fonts/Ricomoon.ttf ];then
 	fi
 
 	export icon_os=${archlinux}
-	export icon_mem=""
+	export icon_mem=""
 
 	case $OSTYPE in
 		darwin*)
@@ -71,49 +64,28 @@ if [ -f ~/.local/share/fonts/Ricomoon.ttf ];then
 			export icon_os=""
 			;;
 	esac
-
-	export icon_off=""
-	export icon_on=""
-	export icon_ime=""
-	export icon_bat=""
-	export icon_bookmark=""
-	export icon_hdd=""
-	export icon_rocket=""
+  export icon_ai=""
 	export icon_tag=""
 	export icon_linux=""
+	export icon_hearts=""
+	export icon_moon=""
+	export icon_game=""
 	export icon_code=""
+	export icon_term=""
 	export icon_twitter=""
-	export icon_dropbox=""
-	export icon_download=""
-	export icon_upload=""
-	export icon_battery=""
-	export icon_volume=""
-	export icon_usb=""
-	export icon_bluetooth=""
-	export icon_bitbucket=""
-	export icon_heroku="H"
-	export icon_bluemix="B"
-	export icon_gitlab="L"
-	export icon_slack=""
-	export icon_mail=""
-	export icon_mobile=""
-	export icon_notepc=""
-	export icon_keyboard=""
-	export icon_heart=""
-	export icon_time=""
-	export icon_home=""
-	export icon_open=""
-	export icon_userone=""
-	export icon_load=""
-	export icon_reload=""
-	export icon_music=""
-	export icon_music_re=""
-	export icon_music_re=""
-	export icon_music_ra=""
+	export icon_mastodon=""
+	export icon_keybase=""
+	export icon_heroku=""
+	export icon_gitlab=""
+	export icon_slack=""
+	export icon_mail=""
+	export icon_load=""
+	export icon_music=""
+	export icon_list=""
 	export icon_git_push=${icon_download}
 	export icon_git_merge=${icon_download}
 	export icon_git_fork=${icon_upload}
-  	export TMUX_POWERLINE_GIT_BRANCH_ST=${icon_git_branch}
+  export TMUX_POWERLINE_GIT_BRANCH_ST=${icon_git_branch}
 	export TMUX_POWERLINE_GIT_BRANCH=${icon_git_commit}
 fi
 
@@ -152,46 +124,43 @@ zstyle ':vcs_info:*' max-exports 3
 zstyle ':vcs_info:hg:*' get-revision true
 zstyle ':vcs_info:hg:*' use-simple true
 zstyle ':vcs_info:git:*' check-for-changes true
-zstyle ':vcs_info:git:*' stagedstr "%F{red}${icon_git_branch}%f"
-zstyle ':vcs_info:git:*' unstagedstr "%F{cyan}${icon_git_commit}%f"
-zstyle ':vcs_info:*' actionformats '(%s)-[%b|%a] %m'
+zstyle ':vcs_info:git:*' stagedstr "%F{red}${icon_git_st}%f "
+zstyle ':vcs_info:git:*' unstagedstr "%F{cyan}${icon_git_un}%f "
+zstyle ':vcs_info:git:*' actionformats "${icon_git_ac} (%s)-[%b|%a] %m"
 zstyle ':vcs_info:git:*' formats '%{%k%f%}%F{black}%K{green}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%F{white}%K{green} ${icon_git} ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN} %s ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN} %r ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN} %m%a %f%k%K{yellow}%F{green}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%%F{white}%K{yellow} %b %f%k%K{black}%F{yellow}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%%F{white}%K{black} %c%u %f%k'
 
 zstyle ':vcs_info:git+set-message:*' hooks \
-                                        git-hook-begin \
-                                        git-untracked \
-                                        git-push-status \
-                                        git-nomerge-branch \
-				        git-config-user \
-                                        git-stash-count
+	git-hook-begin \
+	git-untracked \
+	git-push-status \
+	git-nomerge-branch \
+	git-config-user \
+	git-stash-count
 function +vi-git-config-user(){
-  	#hook_com[misc]+=`git config user.email`
 	local ahead
-        ahead=$(git rev-list origin/master..master 2>/dev/null | wc -l | tr -d ' ')
+        #ahead=$(git rev-list origin/master..master 2>/dev/null | wc -l | tr -d ' ')
+        ahead=$(git --no-pager shortlog -sn |tr -d ' '|cut -f 1 | head -n 1)
 	local stash
 	stash=$(git stash list 2>/dev/null | wc -l | tr -d ' ')
 	local vcsh
 	vcsh=$(git remote -v)
 	if echo ${vcsh} | grep github > /dev/null 2>&1;then
 		hook_com[misc]+="${icon_github} `git config user.name`"
-	elif echo ${vcsh} | grep bitbucket > /dev/null 2>&1;then 
-		hook_com[misc]+="${icon_bitbucket} `git config user.name`"
 	elif echo ${vcsh} | grep heroku > /dev/null 2>&1;then 
 		hook_com[misc]+="${icon_heroku} `git config user.name`"
 	elif echo ${vcsh} | grep gitlab > /dev/null 2>&1;then 
 		hook_com[misc]+="${icon_gitlab} `git config user.name`"
-	elif echo ${vcsh} | grep bluemix > /dev/null 2>&1;then 
-		hook_com[misc]+="${icon_bluemix} `git config user.name`"
+	elif echo ${vcsh} | grep gitea > /dev/null 2>&1;then 
+		hook_com[misc]+="${icon_ai} `git config user.name`"
 	fi
 
-        if [[ "$ahead" -gt 0 ]]; then
-
-		hook_com[misc]+=" ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN} ${icon_git_push} ${ahead}"
-        fi
-        if [[ "$stash" -gt 0 ]]; then
+	if [[ "$ahead" -gt 0 ]]; then
+		hook_com[misc]+=" ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN} ${icon_git_push}${icon_list} ${ahead}"
+	fi
+	if [[ "$stash" -gt 0 ]]; then
 		hook_com[misc]+=" ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN} ${icon_git_commit} ${stash}"
-        fi
- 	if [[ "${hook_com[branch]}" != "master" ]]; then
+	fi
+	if [[ "${hook_com[branch]}" != "master" ]]; then
 		hook_com[branch]+=" %F{magenta}${icon_git_branch}%f"
 	else
 		hook_com[branch]+=" ${icon_git_branch}"
