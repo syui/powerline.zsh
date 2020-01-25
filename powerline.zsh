@@ -134,24 +134,25 @@ zstyle ':vcs_info:git+set-message:*' hooks \
 	git-stash-count
 function +vi-git-config-user(){
 	local ahead
-        #ahead=$(git rev-list origin/master..master 2>/dev/null | wc -l | tr -d ' ')
-        ahead=$(git --no-pager shortlog -sn |tr -d ' '|cut -f 1 | head -n 1)
+	a=`git --no-pager shortlog -sn |tr -d ' '|head -n 1`
+  ahead=`echo $a|cut -f 1`
 	local stash
 	stash=$(git stash list 2>/dev/null | wc -l | tr -d ' ')
 	local vcsh
 	vcsh=$(git remote -v)
+	guser=`git config user.name`
 	if echo ${vcsh} | grep github > /dev/null 2>&1;then
-		hook_com[misc]+="${icon_github} `git config user.name`"
+		hook_com[misc]+="${icon_github} ${guser}"
 	elif echo ${vcsh} | grep heroku > /dev/null 2>&1;then 
-		hook_com[misc]+="${icon_heroku} `git config user.name`"
+		hook_com[misc]+="${icon_heroku} ${guser}"
 	elif echo ${vcsh} | grep gitlab > /dev/null 2>&1;then 
-		hook_com[misc]+="${icon_gitlab} `git config user.name`"
+		hook_com[misc]+="${icon_gitlab} ${guser}"
 	elif echo ${vcsh} | grep gitea > /dev/null 2>&1;then 
-		hook_com[misc]+="${icon_ai} `git config user.name`"
+		hook_com[misc]+="${icon_ai} ${guser}"
 	fi
 
 	if [[ "$ahead" -gt 0 ]]; then
-		hook_com[misc]+=" ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN} ${icon_git_push}${icon_list} ${ahead}"
+		hook_com[misc]+=" ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN} ${icon_git_push}${icon_list} ${ahead}/`echo $a|cut -f 2`"
 	fi
 	if [[ "$stash" -gt 0 ]]; then
 		hook_com[misc]+=" ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN} ${icon_git_commit} ${stash}"
