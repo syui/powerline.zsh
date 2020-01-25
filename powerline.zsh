@@ -32,7 +32,6 @@ if [ -f ~/.local/share/fonts/ricomoon.ttf ];then
 	export icon_git_st=""
 	export icon_git_un=""
 	export icon_git_ac=""
-	export icon_os=${archlinux}
   export icon_ai=""
 	export icon_tag=""
 	export icon_linux=""
@@ -81,8 +80,10 @@ if [ -f ~/.local/share/fonts/ricomoon.ttf ];then
 		android*)
 			export icon_os=""
 			;;
+		*)
+			export icon_os=${archlinux}
+			;;
 	esac
-
 fi
 
 setopt prompt_subst
@@ -179,23 +180,12 @@ count_prompt_characters()
 
 update_prompt()
 {
-  #local bar_left_length=$(count_prompt_characters "$prompt_bar_left")
-  #local bar_rest_length=$[COLUMNS - bar_left_length]
-  #local stash
-  #stash="stash "$(git stash list 2>/dev/null | wc -l | tr -d ' ')
-  #local ahead
-  #ahead="push "$(git rev-list origin/master..master 2>/dev/null \
-  #  | wc -l \
-  #  | tr -d ' ')
-  #stash="%K{magenta}%F{black}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%{%k%f%}%{%F{white}%K{magenta}%} $stash %{%k%f%}%F{magenta}%K{blue}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f%{%k%f%}%{%F{white}%K{blue}%} $ahead %{%k%f%}%F{blue}%K{magenta}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}"
-  #local stad
   local bar_left="$prompt_bar_left"$stad
   local bar_right_without_path="${prompt_bar_right:s/%d//}"
   local bar_right_without_path_length=$(count_prompt_characters "$bar_right_without_path")
   bar_right=${prompt_bar_right:s/%d/%(C,%${max_path_length}<...<%d%<<,)/}
   bar_right="%${bar_rest_length}<<${separator}${bar_right}%<<"
   prompt_bar_left_2="%K{white}%F{black}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD} ${icon_user}  %k%f%K{black}%F{white}${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}%k%f"
-  #PROMPT="${bar_left}${bar_right} ${prompt_bar_left_2}"$'\n'"${prompt_left}"
   PROMPT="${bar_left}${bar_right} ${prompt_bar_left_2}"$'\n'"${prompt_left}"
 
   case "$TERM_PROGRAM" in
