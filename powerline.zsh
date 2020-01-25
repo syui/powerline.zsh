@@ -32,38 +32,7 @@ if [ -f ~/.local/share/fonts/ricomoon.ttf ];then
 	export icon_git_st=""
 	export icon_git_un=""
 	export icon_git_ac=""
-
-	if [ -n "$SSH_CONNECTION" ];then
-		export icon_user="%F{cyan}${phoenix}%f"
-		#export icon_user="%F{black}%K{white}${phoenix}%f%k"
-		#if echo $SSH_CLIENT | grep '192.168' > /dev/null 2>&1;then
-		#	export icon_user="${icon_user} ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN} ${icon_lan}"
-		#else
-		#	export icon_user="${icon_user} ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN} ${icon_wan}"
-		#fi
-	else
-		#export icon_user_ssh="${phoenix}"
-		#export icon_user=${phoenix}
-		export icon_user="%F{black}${phoenix}%f"
-	fi
-
 	export icon_os=${archlinux}
-	export icon_mem=""
-
-	case $OSTYPE in
-		darwin*)
-			export icon_os=""
-			;;
-		linux*)
-			export icon_os=${archlinux}
-			;;
-		windows*)
-			export icon_os=""
-			;;
-		android*)
-			export icon_os=""
-			;;
-	esac
   export icon_ai=""
 	export icon_tag=""
 	export icon_linux=""
@@ -87,6 +56,33 @@ if [ -f ~/.local/share/fonts/ricomoon.ttf ];then
 	export icon_git_fork=${icon_upload}
   export TMUX_POWERLINE_GIT_BRANCH_ST=${icon_git_branch}
 	export TMUX_POWERLINE_GIT_BRANCH=${icon_git_commit}
+
+	if [ -n "$SSH_CONNECTION" ];then
+		export icon_user="%F{cyan}${phoenix}%f"
+	else
+		export icon_user="%F{black}${phoenix}%f"
+	fi
+
+	case $OSTYPE in
+		darwin*)
+			export icon_os=""
+			;;
+		linux*)
+			os_name=`cat /etc/os-release|head -n 1|cut -d '"' -f 2`
+			if [ "$os_name" = "Arch Linux" ];then
+				export icon_os=${archlinux}
+		  else
+				export icon_os=${icon_linux}
+			fi
+			;;
+		windows*)
+			export icon_os=""
+			;;
+		android*)
+			export icon_os=""
+			;;
+	esac
+
 fi
 
 setopt prompt_subst
